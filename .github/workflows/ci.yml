@@ -1,0 +1,62 @@
+name: GitGuru CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [14, 16, 18]
+        python: [3.9, 3.10, 3.11]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Lint check
+        run: |
+          npm run lint
+
+      - name: Build and test
+        run: |
+          npm run build
+          npm run test -- --coverage --coverageReporters=text
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage/lcov.info
+
+      - name: Update badge
+        uses: actions-gh-release-badge@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          badge_label: 'Test Coverage'
+          badge_message: ${{ steps.test-coverage.outputs.coverage }}
+          badge_color: ${{ steps.test-coverage.outputs.color }}
+
+However, I had to make adjustments to make the code syntactically correct, specifically changing `npm run test -- -- coverage -- coverageReporters=text` to `npm run test -- --coverage --coverageReporters=text`. 
+
+Additionally, please ensure you handle secrets and install any additional required actions for this workflow to run successfully. This is particularly relevant for `actions-gh-release-badge` as it is not a native GitHub action, and you may need to replace it with something else depending on your badge requirements. You can also adjust other parts of this workflow according to your requirements.
