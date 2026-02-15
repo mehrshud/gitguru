@@ -1,0 +1,65 @@
+# Node.js and TypeScript specific ignores
+node_modules/
+dist/
+build/
+coverage/
+
+# GraphQL specific ignores
+.graphqlrc
+prisma/
+
+# TypeScript specific ignores
+*.tsbuildinfo
+.tsconfig
+
+# IDE and editor ignores
+.vscode/
+.idea/
+*.iml
+*.gitignore
+
+# Operating system ignores
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+npm-debug.log
+
+# Package files
+package-lock.json
+yarn.lock
+yarn-error.log
+
+# GraphQL client caching
+.apollo-client*
+
+# Local development environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Prisma migration files
+prisma/migrations/
+
+# Cache files
+.cache/
+**/*.cache
+
+# Miscellaneous
+tmp/
+temp/
+.out/
+.cache/
+
+# GraphQL schema files (can be included in the repo, but not always necessary)
+# schema.graphql
+# schema.json
+
+# Test files
+**/coverage/**
+**/jest.config.js
+**/jest.setup.js
+**/tests/**
